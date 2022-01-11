@@ -42,18 +42,33 @@ top: -0.4em;">RUN!</button>
     // eventually the manual initialization won't be required!
     import init, { interpret } from './pkg/wasm.js';
 
+    let code = document.getElementById("code");
+    let input = document.getElementById("input");
+    let output = document.getElementById("output");
+
     async function run() {
         await init();
+        code.value =
+`in=
+in0=in 0
+s="oh"
+q='?'
+x='!'
+s=q s
+s=x s
+=s
+j=9 2
+j
+=in0`;
+        input.value = "no";
     }
 
     run();
 
-    let code = document.getElementById("code");
-    let input = document.getElementById("input");
-    let output = document.getElementById("output");
+
     function click_interpret() {
         try {interpret(code.value, input.value.split(" "))} catch(e) {
-            output.innerHTML = "Oh! Something went wrong!";
+            output.value = "Oh! Something went wrong!";
         }
     }
     document.getElementById("run").addEventListener("click", click_interpret);
