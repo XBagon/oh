@@ -45,8 +45,15 @@ jobs:
       run: |
         cd wasm
         wasm-pack build --target web --release
+    - name: Create Page folder
+      run: |
+        mkdir deploy
+        mv index.html deploy
+        rm deploy/pkg/.gitignore
+        rm deploy/pkg/*.ts
+        rm deploy/pkg/*.json
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       with:
         branch: gh-pages
-        folder: wasm
+        folder: wasm/deploy
