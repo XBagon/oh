@@ -50,6 +50,7 @@ jobs:
         cd wasm
         mkdir deploy
         mv index.html deploy
+        mv pkg deploy
         rm deploy/pkg/.gitignore
         rm deploy/pkg/*.ts
         rm deploy/pkg/*.json
