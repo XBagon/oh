@@ -11,18 +11,35 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build
       run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+    - name: Cache build
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: target
+  test:
+      runs-on: ubuntu-latest
+      needs: build
+      steps:
+      - name: Retrieve cached build 
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+      - name: Run tests
+        run: cargo test --verbose
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
     - uses: jetli/wasm-pack-action@v0.3.0
     - name: Build WASM
-      run: wasm-pack build --target web --release
+      run: |
+        cd wasm
+        wasm-pack build --target web --release
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       with:
