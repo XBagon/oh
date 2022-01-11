@@ -47,6 +47,7 @@ jobs:
         wasm-pack build --target web --release
     - name: Create Page folder
       run: |
+        cd wasm
         mkdir deploy
         mv index.html deploy
         rm deploy/pkg/.gitignore
